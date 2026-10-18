@@ -1,36 +1,120 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js CRUD: ระบบจัดการข้อมูลนักศึกษา
 
-## Getting Started
+เว็บแอปพลิเคชันสำหรับจัดการข้อมูล (เพิ่ม ดู แก้ไข ลบ) พัฒนาด้วย Next.js App Router เชื่อมต่อฐานข้อมูล SQLite ผ่าน Prisma
 
-First, run the development server:
+- **ชื่อ-นามสกุล:** กฤติน อินทร์ตระกูล
+- **รหัสนักศึกษา:** 673450030-6
+- **รายวิชา:** Front-end Web Programming
+
+## เทคโนโลยีที่ใช้
+
+| เทคโนโลยี | เวอร์ชัน | หน้าที่ |
+|---|---|---|
+| Next.js (App Router) | 16.3.5 | เฟรมเวิร์กหลัก |
+| React | 19.2.8 | สร้างส่วนติดต่อผู้ใช้ |
+| TypeScript | 5 | ภาษาที่ใช้เขียนโค้ด |
+| Prisma | 7.10 | ORM เชื่อมต่อฐานข้อมูล |
+| SQLite (better-sqlite3) | - | ฐานข้อมูล (ไฟล์ `dev.db`) |
+| Tailwind CSS | 4 | จัดรูปแบบหน้าเว็บ |
+| ESLint | 9 | ตรวจคุณภาพโค้ด |
+
+## สิ่งที่ต้องติดตั้งก่อน
+
+1. **Node.js** เวอร์ชัน 20 ขึ้นไป ดาวน์โหลดที่ https://nodejs.org
+2. **Git** ดาวน์โหลดที่ https://git-scm.com
+
+ตรวจสอบว่าติดตั้งแล้วด้วยคำสั่ง
+
+```bash
+node -v
+git -v
+```
+
+## วิธีติดตั้ง
+
+**1. ดึงโค้ดลงเครื่อง**
+
+```bash
+git clone https://github.com/GMERLIN1748/nextjs-crud.git
+cd nextjs-crud
+```
+
+**2. ติดตั้งไลบรารี**
+
+```bash
+npm install
+```
+
+**3. สร้างไฟล์ `.env`**
+
+สร้างไฟล์ชื่อ `.env` ไว้ในโฟลเดอร์โปรเจกต์ (ระดับเดียวกับ `package.json`) แล้วกำหนดที่อยู่ฐานข้อมูล
+
+```env
+DATABASE_URL="file:./dev.db"
+```
+
+**4. สร้าง Prisma Client**
+
+```bash
+npx prisma generate
+```
+
+> หากขึ้นข้อความว่าหาไฟล์ config ไม่เจอ ให้ระบุไฟล์ config ของโปรเจกต์ด้วย
+> `npx prisma generate --config prisma7.config.ts`
+
+**5. ฐานข้อมูล**
+
+โปรเจกต์มีไฟล์ `dev.db` ให้มาแล้ว พร้อมใช้งานทันที ถ้าต้องการสร้างตารางใหม่ ให้รัน `npx prisma migrate dev` (เพิ่ม `--config prisma7.config.ts` ถ้าจำเป็น)
+
+## วิธีรันโปรเจกต์
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+เปิดเบราว์เซอร์ไปที่ http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| คำสั่ง | ความหมาย |
+|---|---|
+| `npm run dev` | รันโหมดพัฒนา |
+| `npm run build` | สร้างเวอร์ชันสำหรับใช้งานจริง |
+| `npm start` | รันเวอร์ชันที่ build แล้ว |
+| `npm run lint` | ตรวจโค้ดด้วย ESLint |
+| `npx prisma studio` | เปิดหน้าดู/แก้ข้อมูลในฐานข้อมูล |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+> หากขึ้นข้อความ `Another next dev server is already running` แปลว่ามีเซิร์ฟเวอร์รันอยู่แล้ว ใช้ตัวเดิมได้เลย หรือปิดด้วย `taskkill /PID <หมายเลข PID> /F` (Windows) แล้วรันใหม่
 
-## Learn More
+## วิธีใช้งาน
 
-To learn more about Next.js, take a look at the following resources:
+1. เปิดหน้าแรกของเว็บ แล้วเข้าไปที่หน้ารายชื่อนักศึกษา (`/students`)
+2. **เพิ่มข้อมูล** กดปุ่มเพิ่มนักศึกษา กรอกฟอร์ม แล้วกดบันทึก ระบบจะพากลับหน้ารายชื่อ
+3. **แก้ไขข้อมูล** กดปุ่มแก้ไขที่แถวของรายการที่ต้องการ แก้ข้อมูลแล้วบันทึก
+4. **ลบข้อมูล** กดปุ่มลบที่แถวของรายการที่ต้องการ รายชื่อจะอัปเดตทันที
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## โครงสร้างโปรเจกต์
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```text
+nextjs-crud/
+├── app/                  # หน้าเว็บและ Server Actions (App Router)
+├── prisma/               # Prisma Schema
+├── public/               # ไฟล์ static
+├── dev.db                # ฐานข้อมูล SQLite
+├── prisma7.config.ts     # ค่าตั้งต้นของ Prisma
+├── next.config.ts        # ค่าตั้งต้นของ Next.js
+├── postcss.config.mjs    # ค่าตั้งต้นของ Tailwind CSS
+├── tsconfig.json         # ค่าตั้งต้นของ TypeScript
+└── package.json
+```
 
-## Deploy on Vercel
+## การแก้ปัญหาเบื้องต้น
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| อาการ | วิธีแก้ |
+|---|---|
+| Error เกี่ยวกับ Prisma Client | รัน `npx prisma generate` อีกครั้ง |
+| ไม่พบตัวแปร `DATABASE_URL` | ตรวจว่าสร้างไฟล์ `.env` แล้ว |
+| ไม่มีตารางในฐานข้อมูล | รัน `npx prisma migrate dev` |
+| `Port 3000 is in use` | ใช้เซิร์ฟเวอร์ตัวเดิมที่รันอยู่ หรือปิดแล้วรันใหม่ |
+| หน้าเว็บไม่เปลี่ยนหลังแก้โค้ด | กด `Ctrl + F5` หรือรีสตาร์ทเซิร์ฟเวอร์ |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## ผู้จัดทำ
+นายกฤติน อินทร์ตระกูล 673450030-6
